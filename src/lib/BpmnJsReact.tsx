@@ -8,6 +8,7 @@ import "./index.scss";
 import { defaultBpmnXml } from "../utils/bpmn.utils";
 import { createTheme, MantineProvider } from "@mantine/core";
 import { BpmnJsReactHandle, BpmnJsReactProps } from "../interfaces/bpmnJsReact.interface";
+import ConfigPanel from "../components/ConfigPanel";
 
 const BpmnJsReact: ForwardRefRenderFunction<BpmnJsReactHandle, BpmnJsReactProps> = (
   { mode = "view", xml, useBpmnJsReact, ...props },
@@ -19,15 +20,20 @@ const BpmnJsReact: ForwardRefRenderFunction<BpmnJsReactHandle, BpmnJsReactProps>
 
   return (
     <>
-      <MantineProvider theme={theme}>
-        {mode == "edit" && (
-          <BpmnJSModeler {...props} xml={xml} ref={ref} useBpmnJsReact={useBpmnJsReact}></BpmnJSModeler>
-        )}
+        <MantineProvider theme={theme}>
+            <div >
 
-        {mode == "view" && <BpmnJsViewer xml={xml} {...props} ref={ref} useBpmnJsReact={useBpmnJsReact}></BpmnJsViewer>}
-      </MantineProvider>
+                {mode == "edit" && (
+                    <BpmnJSModeler {...props} xml={xml} ref={ref} useBpmnJsReact={useBpmnJsReact}></BpmnJSModeler>
+                )}
+
+                {mode == "view" &&
+                    <BpmnJsViewer xml={xml} {...props} ref={ref} useBpmnJsReact={useBpmnJsReact}></BpmnJsViewer>}
+
+            </div>
+        </MantineProvider>
     </>
-  );
+);
 };
 
 // export default forwardRef(BpmnJsReact);

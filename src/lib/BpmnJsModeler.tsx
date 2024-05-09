@@ -18,18 +18,7 @@ import {
   BpmnJsReactHandle,
   BpmnJsReactProps,
 } from "../interfaces/bpmnJsReact.interface";
-
-// export type BpmnJsModelerProps = {
-//   xml?: string;
-//   height?: any;
-//   onLoading?: Function;
-//   onError?: Function;
-//   onShown?: Function;
-//   saveXml?: Function;
-//   onClick?: Function;
-//   onDbclick?: Function;
-//   zoomActions?: boolean;
-// };
+import ConfigPanel from "../components/ConfigPanel";
 
 const BpmnJsModeler: ForwardRefRenderFunction<
   BpmnJsReactHandle,
@@ -38,7 +27,7 @@ const BpmnJsModeler: ForwardRefRenderFunction<
   {
     useBpmnJsReact,
     xml = defaultBpmnXml,
-    height = 400,
+    height = 500,
     zoomActions = true,
     onLoading = () => {},
     onError = () => {},
@@ -52,11 +41,11 @@ const BpmnJsModeler: ForwardRefRenderFunction<
   const containerRef = useRef(null);
   const [bpmnEditor, setBpmnEditor] =
     useState<ReturnType<typeof IBpmnModeler>>(null);
-
+  const [selectedElement, setSelectedElement] = useState();
   useEffect(() => {
-    const container:any = containerRef.current;
+    const container: any = containerRef.current;
     const newModeler = new BpmnModeler({ container });
-    useBpmnJsReact?.setBpmnModeler(newModeler)
+    useBpmnJsReact?.setBpmnModeler(newModeler);
     setBpmnEditor(newModeler);
 
     return () => bpmnEditor?.destroy();
@@ -78,9 +67,11 @@ const BpmnJsModeler: ForwardRefRenderFunction<
     });
 
     // bpmnEditor?.on("element.click", onClick);
+    // Define the function
 
     bpmnEditor?.on("element.click", (e: any) => {
-      // console.log("🚀 ~ file: BpmnJsModeler.tsx:78 ~ bpmnEditor?.on ~ e:", e);
+      setSelectedElement(e.element);
+      console.log("🚀element:", e.element);
       click(e);
       // getConvas().addMarker(e.element.id, "test");
     });
@@ -149,15 +140,31 @@ const BpmnJsModeler: ForwardRefRenderFunction<
   // useEffect(() => {
   //   bpmnEditor?.importXML(xml);
   // }, [xml, bpmnEditor]);
-
+  const updateElementName = (newName: string) => {
+    if (selectedElement) {
+      selectedElement.label = newName;
+      setSelectedElement({ ...selectedElement });
+    }
+  };
   return (
     <>
-      <div className="bpmn-wrapper">
+      <div
+        className="bpmn-wrapper"
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-start",
+        }}
+      >
         <div
           className="bpmn-js-react-editor-container"
           ref={containerRef}
-          style={{ height }}
+          style={{ height, width: "800" }}
         ></div>
+        <ConfigPanel
+          element={selectedElement}
+          updateElementName={updateElementName}
+        />
         <div className="actions-wrapper">
           {zoomActions && (
             <ZoomActions

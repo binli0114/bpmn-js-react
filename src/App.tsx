@@ -9,14 +9,15 @@ import { useBpmnJsReact } from "./hooks/bpmn.hook";
 // import { IconZoomIn, IconZoomOut } from "@tabler/icons";
 
 function App() {
-  // const ref = useRef<BpmnJsReactHandle>(null);
+  //const ref = useRef<BpmnJsReactHandle>(null);
 
   const [elements, setElements] = useState<any>([]);
 
   const bpmnReactJs = useBpmnJsReact();
 
   return (
-    <div className="App">
+      <div className="">
+    <div className="App" style={{height:"500px"}}>
       <BpmnJsReact
         mode="edit"
         useBpmnJsReact={bpmnReactJs}
@@ -44,12 +45,12 @@ function App() {
       <button
         onClick={() => {
           console.log(elements);
-          console.log(
-            bpmnReactJs.setColor(elements, {
-              stroke: "#00ff00",
-              fill: "#ffff00",
-            })
-          );
+          // console.log(
+          //   bpmnReactJs.setColor(elements, {
+          //     stroke: "#00ff00",
+          //     fill: "#ffff00",
+          //   })
+          // );
         }}
       >
         set color
@@ -68,9 +69,9 @@ function App() {
       </button>
       <button
         onClick={() => {
-          elements.forEach((element: any) => {
-            // ref.current?.addMarker(element.id, "highlight");
-          });
+          // elements.forEach((element: any) => {
+          //    ref.current?.addMarker(element.id, "highlight");
+          // });
         }}
       >
         addMarker
@@ -121,8 +122,9 @@ function App() {
       </button>
       <br />
 
-      <BpmnJsReact useBpmnJsReact={bpmnReactJs} xml={defaultBpmnXml} zoomActions={false}></BpmnJsReact>
+      {/*<BpmnJsReact useBpmnJsReact={bpmnReactJs} xml={defaultBpmnXml} zoomActions={false}></BpmnJsReact>*/}
     </div>
+      </div>
   );
 }
 

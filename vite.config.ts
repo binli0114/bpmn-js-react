@@ -4,14 +4,14 @@ import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
 import { terser } from "rollup-plugin-terser";
 import scss from "rollup-plugin-scss";
-import VitePluginStyleInject from "vite-plugin-style-inject";
+//import VitePluginStyleInject from "vite-plugin-style-inject";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
     dts(),
-    VitePluginStyleInject(),
+    //VitePluginStyleInject(),
     // terser(),
     // scss({
     //   output: "dist/index.min.css",
