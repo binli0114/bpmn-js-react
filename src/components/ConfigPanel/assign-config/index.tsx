@@ -2,126 +2,96 @@ import React, { useState, useEffect } from "react";
 import { Button, Modal } from "antd";
 import SelectAssignTable from "./SelectAssignTable";
 import AssignTable from "./AssignTable";
-import { assignInfo, updateElementExtensions } from "../../utils";
+import { assignInfo, updateElementExtensions,AssignInfoType,BpmnInstance } from "../../utils";
 
+interface AssignItem {
+  typeName?: string;
+  valueName?: string;
+  type: string;
+  sort: number;
+  value?: string;
+  detail?: any[];
 
-export default function AssignConfig(props:any) {
-  const { bpmnInstance } = props;
-  const [selectModalVisible, setSelectModalVisible] = useState<boolean>(false);
-  const [assignList, setAssignList] = useState<any[]>([]);
-  const [assignAttr, setAssignAttr] = useState<any[]>([]);
+}
+
+interface Props {
+  bpmnInstance: BpmnInstance;
+}
+
+/**
+ * 审核者配置
+ */
+const AssignConfig: React.FC<Props> = ({ bpmnInstance }) => {
+  const [selectModalVisible, setSelectModalVisible] = useState(false);
+  const [assignList, setAssignList] = useState<AssignItem[]>([]);
+  const [assignAttr, setAssignAttr] = useState<AssignItem[]>([]);
   const [otherAttr, setOtherAttr] = useState<any[]>([]);
-  const { bpmnElement = {} } = bpmnInstance;
+  const { bpmnElement } = bpmnInstance;
 
-  // 读取扩展属性中的按钮
-  useEffect(():void => {
-    if (bpmnElement.businessObject) {
-      const busObj = bpmnElement.businessObject;
-      const other: any[] | ((prevState: never[]) => never[]) = [];
-      const assign =
-        (busObj.extensionElements &&
-          busObj.extensionElements.values &&
-          busObj.extensionElements.values.filter(
-            (ex: { $type: string | string[] }) => {
-              if (ex.$type.indexOf("Assignee") !== -1) {
-                return true;
-              }
-              other.push(ex);
-            }
-          )) ||
-        [];
+  useEffect(() => {
+    const busObj = bpmnElement?.businessObject;
+    if (busObj?.extensionElements?.values) {
+      const other: any[] = [];
+      const assign = busObj.extensionElements.values.filter((ex) => {
+        if (ex.$type.indexOf("Assignee") !== -1) {
+          return true;
+        }
+        other.push(ex);
+        return false;
+      });
       setOtherAttr(other);
       updateAssign(assign);
     }
-  }, [bpmnElement.businessObject]);
+  }, [bpmnElement?.businessObject]);
 
-  // 通过id获取审核者的名字，显示列表
-  async function updateAssign(assign: any) {
-    const list = [];
-    for (const item of assign) {
-      const { type, value = "", sort } = item;
-      if (assignInfo[type]) {
-        const { getInfoById, name } = assignInfo[type];
-        if (
-          ["applyUserId", "previousExecutor", "currentUserId"].includes(type)
-        ) {
-          // 类型为：发起人，上一步执行人，当前登录用户
-          list.push({ typeName: name, valueName: name, type, sort });
-        } else if (["sql", "custom"].includes(type)) {
-          // 类型为：sql脚本，自定义条件
-          list.push({
-            typeName: name,
-            valueName: value,
-            type,
-            sort,
-            value: value,
-          });
-        } else {
-          // 类型为：用户，岗位，部门，角色
-          const valueList = value.split(",");
-          if (valueList[0].length) {
-            const detail: any[] = [];
-            let valueName = "";
-            for (const i of valueList) {
-              await getInfoById({ id: i }).then((data) => {
-                valueName += data.name + ",";
-                detail.push(data);
-              });
-            }
-            list.push({
-              ...item,
-              typeName: name,
-              valueName: valueName.substring(0, valueName.length - 1),
-              detail,
-            });
-          }
-        }
-      }
-    }
+  // todo: Properties `type`, `value` and `sort` does not exist on type `AssignInfoType`
+  // it's the demo code; we will finalise the service later;
+  async function updateAssign(assign: AssignInfoType[]) {
+    const list: AssignItem[] = [];
+    // for (const item of assign) {
+    //   const { type, value = "", sort } = item;
+    //   if (assignInfo[type] && assignInfo[type].getInfoById) {
+    //     const { getInfoById, name } = assignInfo[type];
+    //     const details = ["applyUserId", "previousExecutor", "currentUserId"].includes(type)
+    //       ? { typeName: name, valueName: name, type, sort }
+    //       : await getInfoById("1").then((data:any) => ({
+    //           typeName: name,
+    //           valueName: data.name,
+    //           type,
+    //           sort,
+    //           detail: [data]
+    //         }));
+    //
+    //     list.push(details);
+    //   }
+    // }
     setAssignAttr(list);
   }
 
-  // 添加人员
   function handSelectModalOk() {
-    const list = JSON.parse(JSON.stringify(assignList));
-    const arr = [];
-    const arr2 = [];
-    for (const item of list) {
-      //除发起人，上一步执行人，当前登录用户，value为空，不加入
-      if (
-        !item.value &&
-        !["applyUserId", "previousExecutor", "currentUserId"].includes(
-          item.type
-        )
-      )
-        continue;
-
-      //加入审核者列表
-      const obj = JSON.parse(JSON.stringify(item));
-      arr2.push(obj);
-
-      // 删除多余属性
-      delete item.typeName;
-      delete item.valueName;
-      delete item.detail;
-      delete item.$type;
-
-      const object = bpmnInstance.moddle.create("flowable:Assignee", {
-        ...item,
-        condition: 0,
-        operationType: 0,
-      });
-      arr.push(object);
-    }
+    const arr: any[] = [];
+    assignList.forEach((item) => {
+      if (item.value || ["applyUserId", "previousExecutor", "currentUserId"].includes(item.type)) {
+        const newItem = { ...item };
+        delete newItem.typeName;
+        delete newItem.valueName;
+        delete newItem.detail;
+        const object = bpmnInstance.moddle.create("flowable:Assignee", {
+          ...newItem,
+          condition: 0,
+          operationType: 0,
+        });
+        arr.push(object);
+      }
+    });
     updateElementExtensions([...otherAttr, ...arr], bpmnInstance);
-    setAssignAttr(arr2);
+    setAssignAttr(assignList);
     setSelectModalVisible(false);
   }
 
-  // 打开对话框
   function openModal() {
     setSelectModalVisible(true);
-    setAssignList(JSON.parse(JSON.stringify(assignAttr)));
+    setAssignList([...assignAttr]);
   }
 
   return (

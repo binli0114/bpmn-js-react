@@ -123,8 +123,8 @@ function getButtonList():Promise<any> {
 }
 
 // 获取用户列表
-function getUserList(): Promise<any> {
-  const data = [
+function getUserList(): Promise<UserListResponse> {
+  const data: User[] = [
     {
       id: "11",
       loginName: "Admin",
@@ -148,13 +148,14 @@ function getUserList(): Promise<any> {
       },
     },
   ];
-  return new Promise((resolve) => {
+
+  return new Promise<UserListResponse>((resolve) => {
     resolve({ list: data, count: 30 });
   });
 }
 
 // 根据用户id获取用户信息
-function getUserInfoById() {
+function getUserInfoById():Promise<User> {
   const data = {
     id: "11",
     loginName: "Admin",
@@ -172,17 +173,15 @@ function getUserInfoById() {
 }
 
 // 获取角色列表
-function getRoleList() {
+function getRoleList():Promise<RoleListResponse> {
   const data = [
     {
       id: "11",
-      name: "部门管理员",
-      enname: "aa",
+      name: "System Administrator",
     },
     {
       id: "22",
-      name: "部门管理员2",
-      enname: "bb",
+      name: "System Administrator2"
     },
   ];
   return new Promise((resolve) => {
@@ -191,11 +190,10 @@ function getRoleList() {
 }
 
 // 根据角色id获取角色信息
-function getRoleInfoById() {
+function getRoleInfoById(): Promise<Role> {
   const data = {
     id: "11",
-    name: "部门管理员",
-    enname: "aa",
+    name: "System Admin",
   };
   return new Promise((resolve) => {
     resolve(data);
@@ -203,16 +201,16 @@ function getRoleInfoById() {
 }
 
 // 获取岗位列表
-function getPostList() {
+function getPostList():Promise<PositionListResponse> {
   const data = [
     {
       id: "11",
-      name: "总裁",
+      name: "CEO",
       code: "aa",
     },
     {
       id: "22",
-      name: "部长",
+      name: "CTO",
       code: "bb",
     },
   ];
@@ -222,7 +220,7 @@ function getPostList() {
 }
 
 // 根据id获取岗位信息
-function getPostInfoById() {
+function getPostInfoById():Promise<Position> {
   const data = {
     id: "22",
     name: "部长",
@@ -349,6 +347,46 @@ function getConditionExpress():Promise<any> {
   return new Promise((resolve):void => {
     resolve({ list: data, count: 30 });
   });
+}
+
+export interface Position{
+  name:string,
+  id:string,
+  code:string
+}
+export interface Role {
+  name: string,
+  id: string
+}
+export interface Company {
+  name: string;
+}
+
+export interface Office {
+  name: string;
+}
+
+export interface User {
+  id: string;
+  loginName: string;
+  name: string;
+  company: Company;
+  office: Office;
+}
+
+export interface UserListResponse {
+  list: User[];
+  count: number;
+}
+
+export interface RoleListResponse{
+  list: Role[];
+  count: number
+}
+
+export interface PositionListResponse{
+  list: Position[];
+  count: number
 }
 
 export {

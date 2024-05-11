@@ -141,12 +141,7 @@ const BpmnJsModeler: ForwardRefRenderFunction<
   // useEffect(() => {
   //   bpmnEditor?.importXML(xml);
   // }, [xml, bpmnEditor]);
-  const updateElementName = (newName: string) => {
-    if (selectedElement) {
-      selectedElement.label = newName;
-      setSelectedElement({ ...selectedElement });
-    }
-  };
+
   return (
     <>
       <div
@@ -162,10 +157,6 @@ const BpmnJsModeler: ForwardRefRenderFunction<
           ref={containerRef}
           style={{ height, width: "800" }}
         ></div>
-        <ConfigPanel
-          element={selectedElement}
-          updateElementName={updateElementName}
-        />
         <div className="actions-wrapper">
           {zoomActions && (
             <ZoomActions

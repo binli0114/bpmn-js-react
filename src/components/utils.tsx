@@ -9,15 +9,6 @@ import {
   getRoleInfoById,
 } from "./services";
 
-interface BpmnInstance {
-  modeling: {
-    updateProperties: (element: any, properties: any) => void;
-  };
-  bpmnElement: any;
-  moddle: {
-    create: (type: string, attributes?: object) => any;
-  };
-}
 
 export function updateElementExtensions(extensionList: any[], bpmnInstance: BpmnInstance): void {
   const { modeling, bpmnElement, moddle } = bpmnInstance;
@@ -30,14 +21,7 @@ export function updateElementExtensions(extensionList: any[], bpmnInstance: Bpmn
   modeling.updateProperties(bpmnElement, { extensionElements: extensions });
 }
 
-interface ListenerOptions {
-  event: string;
-  id?: string;
-  expression?: string;
-  delegateExpression?: string;
-  class?: string;
-  listenerType: "expression" | "delegateExpression" | "class";
-}
+
 
 export function createListenerObject(options: ListenerOptions, isTask: boolean, bpmnInstances: BpmnInstance): any {
   const { moddle } = bpmnInstances;
@@ -61,38 +45,34 @@ export function createListenerObject(options: ListenerOptions, isTask: boolean, 
 }
 
 // Configuration data and utilities
-interface AssignInfoType {
-  name: string;
-  getList?: () => Promise<any>;
-  getInfoById?: (id: string) => Promise<any>;
-}
+
 
 export const assignInfo: Record<string, AssignInfoType> = {
   user: {
-    name: "用户",
+    name: "User",
     getList: getUserList,
     getInfoById: getUserInfoById,
   },
   post: {
-    name: "岗位",
+    name: "Position",
     getList: getPostList,
     getInfoById: getPostInfoById,
   },
   depart: {
-    name: "部门",
+    name: "Department",
     getList: getSelectTreeDepartList,
     getInfoById: getDepartInfoById,
   },
   role: {
-    name: "角色",
+    name: "Role",
     getList: getRoleList,
     getInfoById: getRoleInfoById,
   },
-  applyUserId: { name: "发起人" },
-  previousExecutor: { name: "上一步执行人" },
-  currentUserId: { name: "当前登录用户" },
-  sql: { name: "sql脚本" },
-  custom: { name: "自定义条件" },
+  applyUserId: { name: "Applicant" },
+  previousExecutor: { name: "Previous Executor" },
+  currentUserId: { name: "Current Login User" },
+  sql: { name: "sql script" },
+  custom: { name: "Condition" },
 };
 
 export const pagination = (total: number) => ({
@@ -103,7 +83,7 @@ export const pagination = (total: number) => ({
   showSizeChanger: true,
   pageSizeOptions: ["5", "10", "50", "100"],
   showQuickJumper: true,
-  showTotal: () => `共${total}条`,
+  showTotal: () => `total:${total}`,
 });
 
 export function Type_Script_Is(element: any, type: string): boolean {
@@ -115,6 +95,36 @@ export function getBusinessObject(element: any): any {
   return (element && element.businessObject) || element;
 }
 
+export interface BpmnInstance {
+  modeling: {
+    updateProperties: (element: any, properties: any) => void;
+  };
+  bpmnElement: {
+    businessObject?: {
+      extensionElements?: {
+        values: any[];
+      };
+    };
+  };
+  moddle: {
+    create: (type: string, attributes?: object) => any;
+  };
+}
+
+export interface ListenerOptions {
+  event: string;
+  id?: string;
+  expression?: string;
+  delegateExpression?: string;
+  class?: string;
+  listenerType: "expression" | "delegateExpression" | "class";
+}
+
+export interface AssignInfoType {
+  name: string;
+  getList?: () => Promise<any>;
+  getInfoById?: (id: string|number) => Promise<any>;
+}
 export const defaultBpmnXml = `<?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
 xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"  

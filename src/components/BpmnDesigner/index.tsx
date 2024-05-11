@@ -42,11 +42,11 @@ export default function index(props:any) {
         bpmnModeler.importXML(defaultBpmnXml);
 
         // 修改节点hover时的背景色
-        const container: Element = document.getElementsByClassName("djs-container")[0];
-        container.style.setProperty(
-            "--shape-drop-allowed-fill-color",
-            "transparent"
-        );
+        // const container: Element = document.getElementsByClassName("djs-container")[0];
+        // container.style.setProperty(
+        //     "--shape-drop-allowed-fill-color",
+        //     "transparent"
+        // );
 
 
     }, []);

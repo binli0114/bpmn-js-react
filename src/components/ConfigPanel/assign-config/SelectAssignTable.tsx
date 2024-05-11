@@ -57,9 +57,9 @@ export default function SelectAssignTable(props: { assignList: any; setAssignLis
   // 打开选择对话框
   function onSelect(
     type: any,
-    typeName: React.SetStateAction<string>,
+    typeName: string,
     detail: any,
-    index: React.SetStateAction<number>
+    index: number
   ) {
     setType(type);
     setTypeName(typeName);
@@ -141,7 +141,7 @@ export default function SelectAssignTable(props: { assignList: any; setAssignLis
           type?: any;
           typeName?: any;
         },
-        index: string | React.SetStateAction<number>
+        index: string | number
       ) {
         const { type, typeName } = record;
         if (
