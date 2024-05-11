@@ -5,22 +5,15 @@ import "bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css";
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
 import "./bpmn-designer.less";
 import Modeler from "bpmn-js/lib/Modeler";
-import { defaultBpmnXml }  from "../../utils/bpmn.utils";
+import { defaultBpmnXml }  from "../utils";
 import flowableModdleDescriptor from "./flow.json";
+import ConfigPanel from "../ConfigPanel";
 
 
 export default function index(props:any) {
     const { xml, type, modelId } = props;
     const [bpmnInstance, setBpmnInstance] = useState({});
 
-    //an async function to read file content from diagramXML;
-    const readXmlFile = async (filename:string)=>{
-        try {
-            return await readFile(filename, "utf8");
-        } catch (err) {
-            console.error(`Error reading file from disk: ${err}`);
-        }
-    }
 
     useEffect(() => {
         const bpmnModeler = new Modeler({
@@ -80,6 +73,7 @@ export default function index(props:any) {
                 elementRegistry.find((el:any) => el.type === "bpmn:Collaboration");
         }
         if (!activatedElement) return;
+        console.log(`🎨 element:${JSON.stringify(activatedElement)}`);
         // console.log(`
         //           ----------
         //   select element changed:
@@ -87,7 +81,7 @@ export default function index(props:any) {
         //           type:  ${activatedElement.businessObject.$type}
         //           ----------
         //           `);
-        console.log("businessObject: ", activatedElement.businessObject);
+        //console.log("businessObject: ", activatedElement.businessObject);
         setBpmnInstance({ bpmnElement: activatedElement, ...instance });
     }
 
@@ -96,7 +90,7 @@ export default function index(props:any) {
             <div>
                 <div id="flowCanvas" className="flow-canvas"></div>
             </div>
-
+            <ConfigPanel bpmnInstance={bpmnInstance} />
         </div>
     );
 }
