@@ -1,15 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "bpmn-js/dist/assets/diagram-js.css";
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn.css";
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css";
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
 import "./bpmn-designer.less";
 import Modeler from "bpmn-js/lib/Modeler";
-
+import { defaultBpmnXml }  from "../../utils/bpmn.utils";
 import flowableModdleDescriptor from "./flow.json";
+
+
 export default function index(props:any) {
     const { xml, type, modelId } = props;
     const [bpmnInstance, setBpmnInstance] = useState({});
+
+    //an async function to read file content from diagramXML;
+    const readXmlFile = async (filename:string)=>{
+        try {
+            return await readFile(filename, "utf8");
+        } catch (err) {
+            console.error(`Error reading file from disk: ${err}`);
+        }
+    }
 
     useEffect(() => {
         const bpmnModeler = new Modeler({
@@ -18,6 +29,7 @@ export default function index(props:any) {
                 flowable: flowableModdleDescriptor, //添加flowable前缀
             },
         });
+
 
         // 注册bpmn实例
         const instance = {
@@ -30,16 +42,20 @@ export default function index(props:any) {
             replace: bpmnModeler.get("replace"),
             selection: bpmnModeler.get("selection"),
         };
+
         setBpmnInstance(instance);
         getActiveElement(instance);
-        //if (type === "add") bpmnModeler.importXML(initXml);
+
+        bpmnModeler.importXML(defaultBpmnXml);
 
         // 修改节点hover时的背景色
-        const container = document.getElementsByClassName("djs-container")[0];
+        const container: Element = document.getElementsByClassName("djs-container")[0];
         container.style.setProperty(
             "--shape-drop-allowed-fill-color",
             "transparent"
         );
+
+
     }, []);
 
     function getActiveElement(instance:any) {

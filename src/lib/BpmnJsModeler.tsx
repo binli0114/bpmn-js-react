@@ -52,6 +52,7 @@ const BpmnJsModeler: ForwardRefRenderFunction<
   }, []);
 
   useEffect(() => {
+    console.log(`my xml:${xml}`);
     bpmnEditor?.importXML(xml);
 
     bpmnEditor?.on("import.done", (event: any) => {

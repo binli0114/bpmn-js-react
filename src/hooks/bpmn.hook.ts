@@ -2,12 +2,22 @@ import { useState } from "react";
 //import BpmnJSModeler from "bpmn-js/dist/bpmn-modeler.production.min.js";
 //@ts-ignore
 import BpmnModeler, { BpmnModeler as IBpmnModeler } from "bpmn-js/lib/Modeler";
-import { ImportXMLResult, ModdleElement, SaveXMLOptions, SaveXMLResult } from "bpmn-js/lib/BaseViewer";
+import {
+  ImportXMLResult,
+  ModdleElement,
+  SaveXMLOptions,
+  SaveXMLResult,
+} from "bpmn-js/lib/BaseViewer";
 
 export type BpmnJsReactHook = () => {
   bpmnModeler: ReturnType<typeof IBpmnModeler>;
-  setBpmnModeler: React.Dispatch<React.SetStateAction<ReturnType<typeof IBpmnModeler>>>;
-  importXml: (xml: string, bpmnDiagram?: ModdleElement | string) => Promise<ImportXMLResult>;
+  setBpmnModeler: React.Dispatch<
+    React.SetStateAction<ReturnType<typeof IBpmnModeler>>
+  >;
+  importXml: (
+    xml: string,
+    bpmnDiagram?: ModdleElement | string
+  ) => Promise<ImportXMLResult>;
   // saveXml: (
   //   callback: (err: any, xml: string) => void,
   //   options?: SaveXMLOptions
@@ -35,13 +45,17 @@ export type BpmnJsReactHook = () => {
 
 export const useBpmnJsReact: BpmnJsReactHook = () => {
   const [xml, setXml] = useState<string>("");
-  const [bpmnModeler, setBpmnModeler] = useState<ReturnType<typeof IBpmnModeler>>(null);
+  const [bpmnModeler, setBpmnModeler] =
+    useState<ReturnType<typeof IBpmnModeler>>(null);
 
   //BASIC
 
   const getCanvas = () => bpmnModeler?.get("canvas");
 
-  const importXml: (xml: string, bpmnDiagram?: ModdleElement | string) => Promise<ImportXMLResult> = (xml: string) => {
+  const importXml: (
+    xml: string,
+    bpmnDiagram?: ModdleElement | string
+  ) => Promise<ImportXMLResult> = (xml: string) => {
     return bpmnModeler?.importXML(xml);
   };
 
@@ -55,8 +69,9 @@ export const useBpmnJsReact: BpmnJsReactHook = () => {
   //   bpmnModeler?.saveXML(options, callback);
   // };
 
-  const saveXml: (options?: SaveXMLOptions) => Promise<SaveXMLResult> = async (options = { format: false }) =>
-    bpmnModeler?.saveXML(options);
+  const saveXml: (options?: SaveXMLOptions) => Promise<SaveXMLResult> = async (
+    options = { format: false }
+  ) => bpmnModeler?.saveXML(options);
 
   const getElements = () => {
     return bpmnModeler?.get("elementRegistry").getAll();
@@ -101,7 +116,9 @@ export const useBpmnJsReact: BpmnJsReactHook = () => {
   };
 
   const setAttribute = (id: any, name: string, value: any) => {
-    bpmnModeler.get("modeling").updateProperties(getElementById(id), { [name]: value });
+    bpmnModeler
+      .get("modeling")
+      .updateProperties(getElementById(id), { [name]: value });
   };
 
   const getIncoming = (id: string) => {
