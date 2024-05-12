@@ -17,19 +17,19 @@ interface FormTableProps {
 const FormTable: React.FC<FormTableProps> = ({ data = [], onChangeProperty }) => {
   const columns = [
     {
-      title: "表单名称",
+      title: "Form Name",
       dataIndex: "name",
       key: "name",
       width: 100,
     },
     {
-      title: "版本",
+      title: "Version",
       dataIndex: "version",
       key: "version",
       width: 100,
     },
     {
-      title: "表单key",
+      title: "Form Id",
       dataIndex: "id",
       key: "id",
       width: 100,
@@ -39,19 +39,19 @@ const FormTable: React.FC<FormTableProps> = ({ data = [], onChangeProperty }) =>
   const expandedRowRender = (record: FormDataItem) => {
     const columns = [
       {
-        title: "字段名称",
+        title: "Name",
         dataIndex: "name",
         key: "name",
         width: 137,
       },
       {
-        title: "字段ID",
+        title: "ID",
         dataIndex: "id",
         key: "id",
         width: 138,
       },
       {
-        title: "可读",
+        title: "Readable",
         dataIndex: "readable",
         key: "readable",
         render: (value: boolean, record: FieldItem, index: number) => (
@@ -64,7 +64,7 @@ const FormTable: React.FC<FormTableProps> = ({ data = [], onChangeProperty }) =>
         ),
       },
       {
-        title: "可写",
+        title: "Writable",
         dataIndex: "writable",
         key: "writable",
         render: (value: boolean, record: FieldItem, index: number) => (

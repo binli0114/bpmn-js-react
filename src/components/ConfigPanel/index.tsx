@@ -5,6 +5,7 @@ import {InfoCircleFilled} from "@ant-design/icons";
 import BaseConfig from "./base-config";
 import AssignConfig from "./assign-config";
 import FormConfig from "./form-config";
+import ButtonConfig from "./button-config";
 const { Panel } = Collapse;
 interface ConfigPanelProps {
     bpmnInstance:any
@@ -40,6 +41,11 @@ const ConfigPanel: React.FC<ConfigPanelProps> = (props) => {
           {["UserTask"].includes(type) && (
               <Panel header={header("Reviewers")} key="2">
                   <AssignConfig bpmnInstance={bpmnInstance} />
+              </Panel>
+          )}
+          {["UserTask"].includes(type) && (
+              <Panel header={header("Button setting")} key="4">
+                  <ButtonConfig bpmnInstance={bpmnInstance} />
               </Panel>
           )}
           {["StartEvent", "UserTask"].includes(type) && (

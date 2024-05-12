@@ -189,8 +189,8 @@ const FormConfig: React.FC<Props> = ({ bpmnInstance }) => {
   return (
     <>
       <Radio.Group onChange={changeFormType} value={formType}>
-        <Radio value="1">动态表单</Radio>
-        <Radio value="2">外置表单</Radio>
+        <Radio value="1">Dynamic Form</Radio>
+        <Radio value="2">Third party Form</Radio>
       </Radio.Group>
       <Divider />
       {formType.toString() === "1" && (
@@ -201,21 +201,21 @@ const FormConfig: React.FC<Props> = ({ bpmnInstance }) => {
               onClick={() => setAddModalVisible(true)}
               disabled={!selectForm?.id} // Using optional chaining to safely access `id`
             >
-              添加
+              Add
             </Button>
             <Button
               type="primary"
               onClick={() => setAddModalVisible(true)}
               disabled={!selectForm?.id} // Assuming you meant to disable if there is no id
             >
-              修改
+              Edit
             </Button>
             <Button
               type="primary"
               onClick={() => setDeleteModalVisible(true)}
               disabled={!selectForm?.id} // Disables if there's no id, ensuring there is something to delete
             >
-              删除
+              Remove
             </Button>
           </div>
           <FormTable
@@ -227,23 +227,23 @@ const FormConfig: React.FC<Props> = ({ bpmnInstance }) => {
       {formType.toString() === "2" && (
         <div className="base-form">
           <div>
-            <span>表单地址</span>
+            <span>Form URL</span>
             <Input value={extFormUrl} onChange={onChangeExtUrl} />
           </div>
           <div>
-            <span style={{ marginLeft: -16 }}>表单只读</span>
+            <span style={{ marginLeft: -16 }}>ReadOnly</span>
             <Checkbox
               onChange={onChangeExtReadable}
               checked={extFormReadable}
               style={{ lineHeight: "32px" }}
             >
-              勾选执行此审批节点时表单不可以修改
+              Check this box to prevent form modification.
             </Checkbox>
           </div>
         </div>
       )}
       <Modal
-        title="选择动态表单"
+        title="Select a Dynamic Form"
         open={addModalVisible}
         onOk={handAddModalOk}
         onCancel={() => setAddModalVisible(false)}
@@ -256,13 +256,13 @@ const FormConfig: React.FC<Props> = ({ bpmnInstance }) => {
         />
       </Modal>
       <Modal
-        title="提示"
+        title="Warning"
         open={deleteModalVisible}
         onOk={handDeleteModalOk}
         onCancel={() => setDeleteModalVisible(false)}
       >
         <ExclamationCircleFilled />
-        确认删除动态表单吗？
+        Are you sure to remove the form？
       </Modal>
     </>
   );

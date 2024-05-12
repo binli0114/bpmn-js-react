@@ -120,3 +120,11 @@ export interface FormDataItem {
     fields?: FieldItem[];
     type?:string;
 }
+
+export interface ButtonItem {
+    name: string;
+    code: string;
+    sort: number;
+    isHide: string;
+    id:string;
+}

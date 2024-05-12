@@ -42,7 +42,7 @@ const AddForm = forwardRef((props: AddFormProps, ref: ForwardedRef<any>) => {
   return (
       <Form {...formItemLayout} form={form}>
         <Form.Item
-            label="表单选择"
+            label="Select a form"
             name="id"
             rules={[{ required: true }]}
             initialValue={selectForm?.id ?? ""}
