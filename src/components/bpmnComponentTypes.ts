@@ -15,6 +15,8 @@ export interface BpmnInstance {
             extensionElements?: {
                 values: any[];
             };
+            candidateStarterGroups?:string;
+            candidateStarterUsers?:string;
         };
     };
     moddle: {
@@ -127,4 +129,8 @@ export interface ButtonItem {
     sort: number;
     isHide: string;
     id:string;
+}
+
+export interface ConfigProps {
+    bpmnInstance: BpmnInstance;
 }

@@ -6,6 +6,7 @@ import BaseConfig from "./base-config";
 import AssignConfig from "./assign-config";
 import FormConfig from "./form-config";
 import ButtonConfig from "./button-config";
+import AuthorityConfig from "./authority-config";
 const { Panel } = Collapse;
 interface ConfigPanelProps {
     bpmnInstance:any
@@ -51,6 +52,11 @@ const ConfigPanel: React.FC<ConfigPanelProps> = (props) => {
           {["StartEvent", "UserTask"].includes(type) && (
               <Panel header={header("Form setting")} key="3">
                   <FormConfig bpmnInstance={bpmnInstance} />
+              </Panel>
+          )}
+          {["Process"].includes(type) && (
+              <Panel header={header("Permission Setting")} key="10">
+                  <AuthorityConfig bpmnInstance={bpmnInstance} />
               </Panel>
           )}
       </Collapse>

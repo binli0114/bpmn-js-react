@@ -4,7 +4,7 @@ import ButtonForm from "./ButtonForm";
 import SelectButtonTable from "./SelectButtonTable";
 import ButtonTable from "./ButtonTable";
 import { updateElementExtensions } from "../../utils";
-import {BpmnInstance, ButtonItem, FormDataItem} from "../../bpmnComponentTypes";
+import {BpmnInstance, ButtonItem} from "../../bpmnComponentTypes";
 
 
 interface ExtensionValue {
