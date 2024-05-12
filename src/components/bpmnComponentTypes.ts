@@ -4,6 +4,14 @@ export interface BpmnInstance {
     };
     bpmnElement: {
         businessObject?: {
+            formKey?: string;
+            $attrs?: {
+                ["flowable:outFormKey"]?: string;
+                ["flowable:formName"]?: string;
+                ["flowable:formVersion"]?: string;
+            };
+            formType?: string | number;
+            formReadOnly?: boolean;
             extensionElements?: {
                 values: any[];
             };
@@ -12,6 +20,7 @@ export interface BpmnInstance {
     moddle: {
         create: (type: string, attributes?: object) => any;
     };
+
 }
 
 export interface ListenerOptions {
@@ -95,4 +104,19 @@ export interface AssignItem {
     sort: number;
     value?: string;
     detail?: any[];// Assuming valueName is a string
+}
+
+export interface FieldItem {
+    name: string;
+    id: string;
+    readable: boolean;
+    writable: boolean;
+    [key: string]: string | boolean;
+}
+export interface FormDataItem {
+    name: string;
+    version: string;
+    id: string;
+    fields?: FieldItem[];
+    type?:string;
 }

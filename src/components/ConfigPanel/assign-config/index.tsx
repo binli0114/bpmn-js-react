@@ -110,3 +110,5 @@ const AssignConfig: React.FC<Props> = ({ bpmnInstance }) => {
     </>
   );
 }
+
+export default AssignConfig;

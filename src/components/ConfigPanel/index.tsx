@@ -3,7 +3,8 @@ import { CollapseProps, Flex, Input, Space } from "antd";
 import { Collapse } from "antd";
 import {InfoCircleFilled} from "@ant-design/icons";
 import BaseConfig from "./base-config";
-// import AssignConfig from "./assign-config";
+import AssignConfig from "./assign-config";
+import FormConfig from "./form-config";
 const { Panel } = Collapse;
 interface ConfigPanelProps {
     bpmnInstance:any
@@ -38,7 +39,12 @@ const ConfigPanel: React.FC<ConfigPanelProps> = (props) => {
           </Panel>
           {["UserTask"].includes(type) && (
               <Panel header={header("Reviewers")} key="2">
-                  {/*<AssignConfig bpmnInstance={bpmnInstance} />*/}
+                  <AssignConfig bpmnInstance={bpmnInstance} />
+              </Panel>
+          )}
+          {["StartEvent", "UserTask"].includes(type) && (
+              <Panel header={header("Form setting")} key="3">
+                  <FormConfig bpmnInstance={bpmnInstance} />
               </Panel>
           )}
       </Collapse>
