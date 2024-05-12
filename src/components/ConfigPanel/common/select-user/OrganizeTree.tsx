@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Tree, Input, Divider } from "antd";
 import { getSideTreeDepartList } from "../../../services";
+import {Organization} from "../../../bpmnComponentTypes";
 
 /*
  * 组织树
@@ -12,23 +13,23 @@ export default function OrganizeTree(props: {
   officeId: any;
 }) {
   const { setCompanyId, setOfficeId, companyId, officeId } = props;
-  const [dataSource, setDataSource] = useState([]);
-  const [selectKey, setSelectKey] = useState([]);
+  const [dataSource, setDataSource] = useState<Organization[]>([]);
+  const [selectKey, setSelectKey] = useState<string>("");
 
   //获取数据源
   useEffect(() => {
-    getSideTreeDepartList().then((data) => {
+    getSideTreeDepartList().then((data:Organization[]) => {
       setDataSource(data);
     });
   }, []);
 
   // 当公司id或部门id被重置时取消树节点选择
   useEffect(() => {
-    if (!companyId && !officeId) setSelectKey([]);
+    if (!companyId && !officeId) setSelectKey("");
   }, [companyId, officeId]);
 
   // 点击树节点,向父组件传参数
-  function onSelect(key, e) {
+  function onSelect(key: string, e: any) {
     setSelectKey(key);
     const type = key[0].substring(0, 4);
     const id = key[0].substring(4);
@@ -48,9 +49,9 @@ export default function OrganizeTree(props: {
       <Tree
         showIcon
         defaultExpandAll
-        onSelect={onSelect}
-        selectedKeys={selectKey}
-        treeData={dataSource}
+        // onSelect={onSelect}
+        // selectedKeys={selectKey}
+        // treeData={dataSource}
       />
     </div>
   );

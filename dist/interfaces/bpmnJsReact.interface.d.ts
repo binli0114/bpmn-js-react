@@ -1,5 +1,5 @@
-import { IBpmnElement } from './bpmn.interface';
-import { useBpmnJsReact } from '../hooks/bpmn.hook';
+import { useBpmnJsReact } from '../../hooks/bpmn.hook';
+import { IBpmnElement } from '../../types/bpmn.interface';
 
 export type BpmnJsReactHandle = {
     saveXml: Function;

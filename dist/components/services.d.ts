@@ -1,0 +1,20 @@
+import { Position, Role, RoleListResponse, UserListResponse, PositionListResponse, User, Department, Organization } from '../../types/bpmnComponentTypes';
+
+declare function getXmlData(): Promise<any>;
+declare function saveBpmnXml(): Promise<void>;
+declare function saveBpmnXmlDraft(): Promise<void>;
+declare function getListenerList(): Promise<any>;
+declare function getFormList(): Promise<any>;
+declare function getButtonList(): Promise<any>;
+declare function getUserList(): Promise<UserListResponse>;
+declare function getUserInfoById(): Promise<User>;
+declare function getRoleList(): Promise<RoleListResponse>;
+declare function getRoleInfoById(): Promise<Role>;
+declare function getPostList(): Promise<PositionListResponse>;
+declare function getPostInfoById(): Promise<Position>;
+declare function getSideTreeDepartList(): Promise<Organization[]>;
+declare function getSelectTreeDepartList(): Promise<Organization[]>;
+declare function getDepartInfoById(): Promise<Department>;
+declare function getConditionField(): Promise<any>;
+declare function getConditionExpress(): Promise<any>;
+export { getListenerList, getFormList, saveBpmnXml, saveBpmnXmlDraft, getButtonList, getSelectTreeDepartList, getSideTreeDepartList, getUserList, getUserInfoById, getRoleInfoById, getRoleList, getDepartInfoById, getPostInfoById, getPostList, getConditionField, getConditionExpress, getXmlData, };

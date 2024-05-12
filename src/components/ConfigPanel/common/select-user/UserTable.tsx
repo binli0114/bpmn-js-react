@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Table, Button, Input } from "antd";
 import { getUserList } from "../../../services";
 import { pagination } from "../../../utils";
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined } from "@ant-design/icons";
+import { User, UserListResponse } from "../../../bpmnComponentTypes";
 
-/*
- * 用户列表
- */
+interface UserDataRecordType extends User {
+  key: string;
+  companyName?: string;
+  officeName?: string;
+}
 export default function UserTable(props: {
   setSelectUser: any;
   companyId: any;
@@ -15,12 +18,12 @@ export default function UserTable(props: {
   setOfficeId: any;
   selectUser: any;
 }) {
-  const [dataSource, setDataSource] = useState([]);
-  const [loginName, setLoginName] = useState("");
-  const [pageSize, setPageSize] = useState(10);
-  const [pageNo, setPageNo] = useState(1);
-  const [orderBy, setOrderBy] = useState("");
-  const [total, setTotal] = useState(0);
+  const [dataSource, setDataSource] = useState<UserDataRecordType[]>([]);
+  const [loginName, setLoginName] = useState<string>("");
+  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageNo, setPageNo] = useState<number>(1);
+  const [orderBy, setOrderBy] = useState<string>("");
+  const [total, setTotal] = useState<number>(0);
   const {
     setSelectUser,
     companyId,
@@ -45,12 +48,12 @@ export default function UserTable(props: {
       "company.id": companyId,
       "office.id": officeId,
     };
-    getUserList().then((data) => {
+    getUserList().then((data: UserListResponse) => {
       const { list, count } = data;
       setTotal(count);
       setDataSource(
         list.map((item) => {
-          const obj = { ...item, key: item.id };
+          const obj: UserDataRecordType = { ...item, key: item.id };
           if (item.company && item.company.name)
             obj.companyName = item.company.name;
           if (item.office && item.office.name)

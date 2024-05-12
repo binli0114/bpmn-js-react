@@ -2,21 +2,22 @@ import React, { useEffect, useState } from "react";
 import { Table, Button, Input } from "antd";
 import { getPostList } from "../../../services";
 import { pagination } from "../../../utils";
+import {PositionListResponse, Position} from "../../../bpmnComponentTypes";
 
-/*
- * 岗位列表
- */
+interface positionDataType extends Position{
+  "key":string,
+}
 export default function PostTable(props: {
   setSelectPost: any;
-  selectPost?: never[] | undefined;
+  selectPost?: any[];
 }) {
-  const [dataSource, setDataSource] = useState([]);
-  const [name, setName] = useState("");
-  const [code, setCode] = useState("");
-  const [pageSize, setPageSize] = useState(10);
-  const [pageNo, setPageNo] = useState(1);
-  const [orderBy, setOrderBy] = useState("");
-  const [total, setTotal] = useState(0);
+  const [dataSource, setDataSource] = useState<positionDataType[]>([]);
+  const [name, setName] = useState<string>("");
+  const [code, setCode] = useState<string>("");
+  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageNo, setPageNo] = useState<number>(1);
+  const [orderBy, setOrderBy] = useState<string>("");
+  const [total, setTotal] = useState<number>(0);
   const { setSelectPost, selectPost = [] } = props;
 
   // 监听查询条件变化查询数据
@@ -33,10 +34,10 @@ export default function PostTable(props: {
       pageSize,
       orderBy,
     };
-    getPostList().then((data) => {
-      const { list, count }: any = data;
+    getPostList().then((data:PositionListResponse) => {
+      const { list, count }: PositionListResponse = data;
       setDataSource(
-        list.map((item: { id: any }) => ({ ...item, key: item.id }))
+        list.map((item:Position) => ({ ...item, key: item.id }))
       );
       setTotal(count);
     });
@@ -44,7 +45,7 @@ export default function PostTable(props: {
 
   // 监听选择行
   const onSelectChange = (selectedRowKeys: any) => {
-    const list: never[] = [];
+    const list: positionDataType[] = [];
     for (const id of selectedRowKeys) {
       const arr = dataSource.filter((item) => item.id === id);
       if (arr.length) {
@@ -54,7 +55,7 @@ export default function PostTable(props: {
 
     //不在dataSource,但是在上次的选中行(selectUser)里的加到list里
     for (const user of selectPost) {
-      if (!dataSource.filter((item) => item.id === user.id).length) {
+      if (!dataSource.filter((item:positionDataType) => item.id === user.id).length) {
         list.push(user);
       }
     }
@@ -67,10 +68,12 @@ export default function PostTable(props: {
   };
 
   // 监听表格页码或排序变化
+  //todo: the handleTableChange signature doesn't align with `onChange`
+  //come back to review and fix it
   function handleTableChange(
     pagination: {
-      pageSize: React.SetStateAction<number>;
-      current: React.SetStateAction<number>;
+      pageSize: number;
+      current: number;
     },
     filters: any,
     sorter: { field: string; order: string }
@@ -122,12 +125,13 @@ export default function PostTable(props: {
         </Button>
         <Button onClick={onReset}>重置</Button>
       </div>
+
       <Table
         dataSource={dataSource}
         columns={columns}
         rowSelection={rowSelection}
-        onChange={handleTableChange}
-        pagination={pagination(total)}
+        // onChange={handleTableChange}
+        // pagination={pagination(total)}
       />
     </div>
   );

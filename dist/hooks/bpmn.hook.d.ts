@@ -1,5 +1,5 @@
-import { ImportXMLResult, ModdleElement, SaveXMLOptions, SaveXMLResult } from 'bpmn-js/lib/BaseViewer';
-import { BpmnModeler as IBpmnModeler } from 'bpmn-js/lib/Modeler';
+import { BpmnModeler as IBpmnModeler } from '../../types/bpmn-js/lib/Modeler';
+import { ImportXMLResult, ModdleElement, SaveXMLOptions, SaveXMLResult } from '../../types/bpmn-js/lib/BaseViewer';
 
 export type BpmnJsReactHook = () => {
     bpmnModeler: ReturnType<typeof IBpmnModeler>;

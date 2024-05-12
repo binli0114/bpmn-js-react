@@ -3,7 +3,16 @@
  */
 
 import { defaultBpmnXml } from "../utils/bpmn.utils.js";
-import {Position, Role, RoleListResponse, UserListResponse, PositionListResponse, User, Company} from "./bpmnComponentTypes";
+import {
+  Position,
+  Role,
+  RoleListResponse,
+  UserListResponse,
+  PositionListResponse,
+  User,
+  Company,
+  Department, Organization
+} from "./bpmnComponentTypes";
 
 // 获取xml数据
 function getXmlData():Promise<any> {
@@ -254,7 +263,7 @@ function getDepartList():Promise<any> {
 }
 
 // 获取部门列表（侧边选择项）
-function getSideTreeDepartList():Promise<any> {
+function getSideTreeDepartList():Promise<Organization[]> {
   const data = [
     {
       title: "xx公司",
@@ -278,7 +287,7 @@ function getSideTreeDepartList():Promise<any> {
 }
 
 // 获取部门列表(下拉树)
-function getSelectTreeDepartList():Promise<any> {
+function getSelectTreeDepartList():Promise<Organization[]> {
   const data = [
     {
       title: "xx公司",
@@ -302,7 +311,7 @@ function getSelectTreeDepartList():Promise<any> {
 }
 
 // 根据id获取部门信息
-function getDepartInfoById():Promise<any> {
+function getDepartInfoById():Promise<Department> {
   const data = {
     name: "开发一部",
     id: "2323",

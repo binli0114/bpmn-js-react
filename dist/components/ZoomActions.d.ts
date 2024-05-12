@@ -1,4 +1,4 @@
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler } from '../../types/react';
 
 declare const ZoomActions: ({ zoomIn, zoomOut, zoomFit, }: {
     zoomIn?: MouseEventHandler;
