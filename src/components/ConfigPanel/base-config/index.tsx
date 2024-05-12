@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Input, message } from "antd";
 
-/**
- *基本设置
- */
+interface baseInfoType{
+  id?:string,
+  name?:string,
+  documentation?:string
+}
 export default function BaseConfig(props: any) {
   const { bpmnInstance } = props;
-  const [baseInfo, setBaseInfo] = useState({});
+  const [baseInfo, setBaseInfo] = useState<baseInfoType>();
   const {
     modeling,
     bpmnElement = {},
@@ -56,7 +58,11 @@ export default function BaseConfig(props: any) {
 
   // 改变配置信息
   const baseInfoChange = (value: string, key: string) => {
-    setBaseInfo({ ...baseInfo, [key]: value });
+    if(baseInfo) {
+      setBaseInfo({...baseInfo, [key]: value});
+    } else{
+      setBaseInfo({[key]: value});
+    }
     const attrObj = Object.create(null);
     attrObj[key] = value;
     switch (key) {
@@ -73,7 +79,7 @@ export default function BaseConfig(props: any) {
         modeling.updateProperties(bpmnElement, attrObj);
         break;
       case "documentation":
-        const element = elementRegistry.get(baseInfo.id);
+        const element = elementRegistry.get(baseInfo?.id);
         const documentation = bpmnFactory.create("bpmn:Documentation", {
           text: value,
         });
@@ -89,21 +95,21 @@ export default function BaseConfig(props: any) {
         <div>
           <span>ID</span>
           <Input
-              value={baseInfo.id}
+              value={baseInfo?.id}
               onChange={(e) => baseInfoChange(e.target.value, "id")}
           />
         </div>
         <div>
           <span>Name</span>
           <Input
-              value={baseInfo.name}
+              value={baseInfo?.name}
               onChange={(e) => baseInfoChange(e.target.value, "name")}
           />
         </div>
         <div>
           <span>Description</span>
           <Input.TextArea
-              value={baseInfo.documentation}
+              value={baseInfo?.documentation}
               onChange={(e) => baseInfoChange(e.target.value, "documentation")}
           />
         </div>

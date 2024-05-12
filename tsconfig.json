@@ -17,8 +17,19 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "declaration": true,
-    "typeRoots": ["./dist/lib/index.d.ts"]
+    // Ensure typeRoots points to your type definitions correctly
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    // Adjust this if your global types are somewhere else
+    "baseUrl": ".",
+    "paths": {
+      "*": ["types/*"]
+    }
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": [
+    "src/**/*",
+    "src/types/**/*" // Make sure this includes the path to your global types if different
+  ],
+  "references": [
+    { "path": "./tsconfig.node.json" }
+  ]
 }

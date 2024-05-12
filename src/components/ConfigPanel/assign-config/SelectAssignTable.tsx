@@ -5,13 +5,14 @@ import SelectUser from "../common/select-user";
 import SelectRole from "../common/select-role";
 import SelectPost from "../common/select-post";
 import { getSelectTreeDepartList } from "../../services";
+import {AssignItem} from "../../bpmnComponentTypes";
 
 const { Option } = Select;
 
 /*
  * 选择审核者组件
  */
-export default function SelectAssignTable(props: { assignList: any; setAssignList: any }) {
+export default function SelectAssignTable(props: { assignList: AssignItem[]; setAssignList: React.Dispatch<React.SetStateAction<AssignItem[]>> }) {
   const { assignList, setAssignList } = props;
   const [selectModalVisible, setSelectModalVisible] = useState<boolean>(false);
   const [type, setType] = useState<any>(null);
@@ -28,10 +29,10 @@ export default function SelectAssignTable(props: { assignList: any; setAssignLis
   }, []);
 
   // 改变用户类型
-  function onChangeType(value: string, index: string | number) {
+  function onChangeType(value: string, index: number) {
     assignList[index].type = value;
     assignList[index].typeName = assignInfo[value].name;
-    assignList[index].detail = "";
+    assignList[index].detail = [""];
     if (["applyUserId", "previousExecutor", "currentUserId"].includes(value)) {
       assignList[index].value = assignInfo[value].name;
       assignList[index].valueName = assignInfo[value].name;
@@ -46,7 +47,7 @@ export default function SelectAssignTable(props: { assignList: any; setAssignLis
   // 改变用户来自
   function onChangeValue(
     e: React.ChangeEvent<HTMLTextAreaElement>,
-    index: string | number
+    index: number
   ) {
     const value = e.target.value;
     assignList[index].value = value;
@@ -84,7 +85,7 @@ export default function SelectAssignTable(props: { assignList: any; setAssignLis
   }
 
   // 修改部门
-  function onChangeDepart(value: string, node: any[], index: string | number) {
+  function onChangeDepart(value: string, node: any[], index: number) {
     const type = value.substring(0, 4);
     const id = value.substring(4);
     if (type === "com_") {
@@ -104,7 +105,7 @@ export default function SelectAssignTable(props: { assignList: any; setAssignLis
 
   // 添加
   function addAssign() {
-    assignList.push({ typeName: "", value: "", sort: 10 });
+    assignList.push({ typeName: "", value: "", sort: 10, type:"" });
     setAssignList(JSON.parse(JSON.stringify(assignList)));
     setType(null);
   }
@@ -115,7 +116,7 @@ export default function SelectAssignTable(props: { assignList: any; setAssignLis
       dataIndex: "typeName",
       key: "typeName",
       width: 258,
-      render: (rowValue: any, record: any, index: string | number) => (
+      render: (rowValue: any, record: any, index: number) => (
         <Select
           style={{ width: "100%" }}
           value={rowValue}
@@ -135,13 +136,13 @@ export default function SelectAssignTable(props: { assignList: any; setAssignLis
       key: "value",
       width: 358,
       render: function (
-        rowValue: string | number | undefined,
+        rowValue: string,
         record: {
           detail?: any;
           type?: any;
           typeName?: any;
         },
-        index: string | number
+        index: number
       ) {
         const { type, typeName } = record;
         if (
@@ -163,7 +164,7 @@ export default function SelectAssignTable(props: { assignList: any; setAssignLis
           return (
             <TreeSelect
               value={rowValue}
-              placeholder="请选择"
+              placeholder="Please select"
               treeDefaultExpandAll
               onChange={(value, node) => onChangeDepart(value, node, index)}
               style={{ width: "100%" }}
@@ -199,7 +200,7 @@ export default function SelectAssignTable(props: { assignList: any; setAssignLis
       render: (value: any, record: any, index: any) => (
         <div className="table-btn">
           <Button type="link" onClick={() => deleteAssign(index)}>
-            删除
+            Remove
           </Button>
         </div>
       ),
@@ -208,7 +209,7 @@ export default function SelectAssignTable(props: { assignList: any; setAssignLis
   return (
     <div>
       <Button type="primary" style={{ marginBottom: 10 }} onClick={addAssign}>
-        添加
+        Add
       </Button>
       <Table
         dataSource={assignList.map((item: any, index: any) => ({
@@ -220,7 +221,7 @@ export default function SelectAssignTable(props: { assignList: any; setAssignLis
         bordered
       />
       <Modal
-        title={"选择" + typeName}
+        title={"Option" + typeName}
         open={selectModalVisible}
         onOk={handSelectModalOk}
         onCancel={() => setSelectModalVisible(false)}

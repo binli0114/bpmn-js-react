@@ -3,7 +3,7 @@ import { CollapseProps, Flex, Input, Space } from "antd";
 import { Collapse } from "antd";
 import {InfoCircleFilled} from "@ant-design/icons";
 import BaseConfig from "./base-config";
-import AssignConfig from "./assign-config";
+// import AssignConfig from "./assign-config";
 const { Panel } = Collapse;
 interface ConfigPanelProps {
     bpmnInstance:any
@@ -37,8 +37,8 @@ const ConfigPanel: React.FC<ConfigPanelProps> = (props) => {
               <BaseConfig bpmnInstance={bpmnInstance} />
           </Panel>
           {["UserTask"].includes(type) && (
-              <Panel header={header("审核者")} key="2">
-                  <AssignConfig bpmnInstance={bpmnInstance} />
+              <Panel header={header("Reviewers")} key="2">
+                  {/*<AssignConfig bpmnInstance={bpmnInstance} />*/}
               </Panel>
           )}
       </Collapse>

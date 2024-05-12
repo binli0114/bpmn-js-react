@@ -3,6 +3,7 @@
  */
 
 import { defaultBpmnXml } from "../utils/bpmn.utils.js";
+import {Position, Role, RoleListResponse, UserListResponse, PositionListResponse, User, Company} from "./bpmnComponentTypes";
 
 // 获取xml数据
 function getXmlData():Promise<any> {
@@ -349,45 +350,7 @@ function getConditionExpress():Promise<any> {
   });
 }
 
-export interface Position{
-  name:string,
-  id:string,
-  code:string
-}
-export interface Role {
-  name: string,
-  id: string
-}
-export interface Company {
-  name: string;
-}
 
-export interface Office {
-  name: string;
-}
-
-export interface User {
-  id: string;
-  loginName: string;
-  name: string;
-  company: Company;
-  office: Office;
-}
-
-export interface UserListResponse {
-  list: User[];
-  count: number;
-}
-
-export interface RoleListResponse{
-  list: Role[];
-  count: number
-}
-
-export interface PositionListResponse{
-  list: Position[];
-  count: number
-}
 
 export {
   getListenerList,

@@ -2,17 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Button, Modal } from "antd";
 import SelectAssignTable from "./SelectAssignTable";
 import AssignTable from "./AssignTable";
-import { assignInfo, updateElementExtensions,AssignInfoType,BpmnInstance } from "../../utils";
+import { assignInfo, updateElementExtensions } from "../../utils";
+import {AssignItem, BpmnInstance, AssignInfoType} from "../../bpmnComponentTypes"
 
-interface AssignItem {
-  typeName?: string;
-  valueName?: string;
-  type: string;
-  sort: number;
-  value?: string;
-  detail?: any[];
-
-}
 
 interface Props {
   bpmnInstance: BpmnInstance;
@@ -25,7 +17,7 @@ const AssignConfig: React.FC<Props> = ({ bpmnInstance }) => {
   const [selectModalVisible, setSelectModalVisible] = useState(false);
   const [assignList, setAssignList] = useState<AssignItem[]>([]);
   const [assignAttr, setAssignAttr] = useState<AssignItem[]>([]);
-  const [otherAttr, setOtherAttr] = useState<any[]>([]);
+  const [otherAttr, setOtherAttr] = useState<AssignItem[]>([]);
   const { bpmnElement } = bpmnInstance;
 
   useEffect(() => {

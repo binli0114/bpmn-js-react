@@ -1,10 +1,7 @@
 import React from "react";
 import { Table } from "antd";
+import {AssignItem} from "../../bpmnComponentTypes";
 
-interface AssignItem {
-  typeName: string; // Assuming typeName is a string
-  valueName: string; // Assuming valueName is a string
-}
 
 interface AssignTableProps {
   assignList: AssignItem[];

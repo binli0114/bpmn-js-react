@@ -9,6 +9,7 @@ import {
   getRoleInfoById,
 } from "./services";
 
+import {AssignInfoType, BpmnInstance, ListenerOptions} from "./bpmnComponentTypes";
 
 export function updateElementExtensions(extensionList: any[], bpmnInstance: BpmnInstance): void {
   const { modeling, bpmnElement, moddle } = bpmnInstance;
@@ -95,36 +96,7 @@ export function getBusinessObject(element: any): any {
   return (element && element.businessObject) || element;
 }
 
-export interface BpmnInstance {
-  modeling: {
-    updateProperties: (element: any, properties: any) => void;
-  };
-  bpmnElement: {
-    businessObject?: {
-      extensionElements?: {
-        values: any[];
-      };
-    };
-  };
-  moddle: {
-    create: (type: string, attributes?: object) => any;
-  };
-}
 
-export interface ListenerOptions {
-  event: string;
-  id?: string;
-  expression?: string;
-  delegateExpression?: string;
-  class?: string;
-  listenerType: "expression" | "delegateExpression" | "class";
-}
-
-export interface AssignInfoType {
-  name: string;
-  getList?: () => Promise<any>;
-  getInfoById?: (id: string|number) => Promise<any>;
-}
 export const defaultBpmnXml = `<?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
 xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"  
