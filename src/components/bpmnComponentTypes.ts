@@ -15,6 +15,9 @@ export interface BpmnInstance {
             extensionElements?: {
                 values: any[];
             };
+            conditionExpression?: {
+                body: string;
+            };
             candidateStarterGroups?:string;
             candidateStarterUsers?:string;
         };
@@ -133,4 +136,18 @@ export interface ButtonItem {
 
 export interface ConfigProps {
     bpmnInstance: BpmnInstance;
+}
+
+export interface ConditionFieldItem {
+    field: string;
+    compare: string;
+    value: string;
+    logic: string;
+}
+
+export interface ExpressItem {
+    id: string;
+    name: string;
+    express: string;
+    note?: string;
 }
