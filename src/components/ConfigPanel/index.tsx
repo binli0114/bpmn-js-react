@@ -8,7 +8,7 @@ import FormConfig from "./form-config";
 import ButtonConfig from "./button-config";
 import AuthorityConfig from "./authority-config";
 import ConditionConfig from "./condition-config";
-
+import CountersignConfig from './countersign-config';
 const { Panel } = Collapse;
 interface ConfigPanelProps {
     bpmnInstance:any
@@ -64,6 +64,11 @@ const ConfigPanel: React.FC<ConfigPanelProps> = (props) => {
           {["SequenceFlow"].includes(type) && (
               <Panel header={header("Condition Setting")} key="6">
                   <ConditionConfig bpmnInstance={bpmnInstance} />
+              </Panel>
+          )}
+          {["UserTask"].includes(type) && (
+              <Panel header={header("Counter Sign Setting")} key="9">
+                  <CountersignConfig bpmnInstance={bpmnInstance} />
               </Panel>
           )}
       </Collapse>
